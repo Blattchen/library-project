@@ -18,7 +18,3 @@ li {
 }
 
 .header {}
-
-.delete::after {
-    content: icon;
-}

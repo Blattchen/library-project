@@ -1,4 +1,4 @@
-// only add one booka at a time
+// only add one book at a time
 let addingNewBook = false
 // Store books in array
 let myLibrary = []
@@ -8,10 +8,18 @@ function Book(title, author, pages, read) {
     this.author = author
     this.pages = pages
     this.read = read
-    this.info = () => `${title} by ${author}, ${pages} pages, ${(read) ? `read` : `not read yet`}`
 }
-
+// book display function
+Book.prototype.info = function () {
+    return `${this.title} by ${this.author}, ${this.pages} pages, ${(this.read) ? "read" : "not read yet"}`
+}
+// toggle is read function
+Book.prototype.toggleRead = function () {
+    this.read = !this.read
+}
+// get ol element to append books
 const ol = document.querySelector(".list")
+
 // add books to array function
 function addBookToLibrary(title, author, pages, read) {
     myLibrary.push(new Book(title, author, pages, read))
@@ -39,11 +47,18 @@ function addBooks() {
     for (let i = 0; i < myLibrary.length; i++) {
         const li = document.createElement("li")
         const delBtn = document.createElement("button")
+        const readBtn = document.createElement("button")
+        readBtn.textContent = "change Read"
+        readBtn.addEventListener("click", () => {
+            myLibrary[i].toggleRead()
+            addBooks()
+        })
         delBtn.value = i
         delBtn.addEventListener("click", deleteLi)
         delBtn.textContent = "Delete"
         li.setAttribute("class", i)
         li.textContent = myLibrary[i].info()
+        li.appendChild(readBtn)
         li.appendChild(delBtn)
         ol.appendChild(li)
     }
@@ -57,8 +72,6 @@ function deleteLi(e) {
 
 // get the new book button
 const bookBtn = document.querySelector(".newBook")
-
-//click function for button
 bookBtn.addEventListener("click", addBookForm)
 
 // function to add form to add books
@@ -117,6 +130,7 @@ function addBookForm() {
     hide.textContent = "Hide"
     hide.addEventListener("click", (e) => {
         e.preventDefault()
+        addingNewBook = false
         form.remove()
     })
     form.appendChild(hide)
