@@ -111,7 +111,7 @@ function addBookForm() {
     form.appendChild(isRead)
 
     // submit button
-    const submit = document.createElement("input")
+    const submit = document.createElement("button")
     submit.setAttribute("type", "submit")
     submit.setAttribute("name", "submit")
     submit.setAttribute("value", "Submit")
