@@ -1,3 +1,5 @@
+// only add one booka at a time
+let addingNewBook = false
 // Store books in array
 let myLibrary = []
 //book constructor
@@ -8,6 +10,7 @@ function Book(title, author, pages, read) {
     this.read = read
     this.info = () => `${title} by ${author}, ${pages} pages, ${(read) ? `read` : `not read yet`}`
 }
+
 const ol = document.querySelector(".list")
 // add books to array function
 function addBookToLibrary(title, author, pages, read) {
@@ -35,11 +38,22 @@ function addBooks() {
 
     for (let i = 0; i < myLibrary.length; i++) {
         const li = document.createElement("li")
+        const delBtn = document.createElement("button")
+        delBtn.value = i
+        delBtn.addEventListener("click", deleteLi)
+        delBtn.textContent = "Delete"
+        li.setAttribute("class", i)
         li.textContent = myLibrary[i].info()
+        li.appendChild(delBtn)
         ol.appendChild(li)
     }
 }
-
+// functiion to delete list item and array
+function deleteLi(e) {
+    let index = e.target.value
+    myLibrary.splice(index, 1)
+    addBooks()
+}
 
 // get the new book button
 const bookBtn = document.querySelector(".newBook")
@@ -49,6 +63,9 @@ bookBtn.addEventListener("click", addBookForm)
 
 // function to add form to add books
 function addBookForm() {
+    // only add one book at a time
+    if (addingNewBook) return
+    addingNewBook = true
     //create empty form elemet
     const form = document.createElement("form")
     // create input and placeholder for title
@@ -89,10 +106,7 @@ function addBookForm() {
     form.appendChild(submit)
     submit.addEventListener("click", (e) => {
         e.preventDefault()
-        console.log(titleInp.value)
-        console.log(authorInp.value)
-        console.log(pagesInp.value)
-        console.log(isRead.checked)
+        addingNewBook = false
         addBookToLibrary(titleInp.value, authorInp.value, pagesInp.value, isRead.checked)
         addBooks()
         form.remove()
@@ -108,6 +122,7 @@ function addBookForm() {
     form.appendChild(hide)
     document.body.appendChild(form)
 }
+
 
 
 
