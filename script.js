@@ -2,22 +2,21 @@
 let addingNewBook = false
 // Store books in array
 let myLibrary = []
-//book constructor
-function Book(title, author, pages, read) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.read = read
+// book class
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title
+        this.author = author
+        this.pages = pages
+        this.read = read
+    }
+    info = () => {
+        return `${this.title} by ${this.author}, ${this.pages} pages, ${(this.read) ? "read" : "not read yet"}`
+    }
+    toggleRead() {
+        this.read = !this.read
+    }
 }
-// book display function
-Book.prototype.info = function () {
-    return `${this.title} by ${this.author}, ${this.pages} pages, ${(this.read) ? "read" : "not read yet"}`
-}
-// toggle is read function
-Book.prototype.toggleRead = function () {
-    this.read = !this.read
-}
-// get ol element to append books
 const ol = document.querySelector(".list")
 
 // add books to array function
